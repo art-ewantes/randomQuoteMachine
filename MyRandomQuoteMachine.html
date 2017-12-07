@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        
+    $(window).on("load", function() {
+        const button = document.getElementById('getMessage');
+        const bodyId = document.getElementById('body');
+        const tweetBtn = document.getElementById('tweet-quote');
+        button.classList.add('is-loading');
+        button.setAttribute('disabled', true);
+        tweetBtn.style.opacity = 0;
+        var html = "",
+            bgColors = ['#16a085', '#27ae60', '#2c3e50', '#f39c12', '#e74c3c', '#9b59b6', '#FB6964', '#342224', "#472E32", "#BDBB99", "#77B1A9", "#73A857"],
+            quote = "",
+            author = "",
+            randomColor = bgColors[Math.floor((Math.random() * bgColors.length))];
+            bodyId.style.backgroundColor  = randomColor;
+            button.style.backgroundColor  = randomColor;
+            tweetBtn.style.backgroundColor  = randomColor;
+        $.getJSON("https://talaikis.com/api/quotes/", myCallBackLoad);
+        function myCallBackLoad(json){
+            numRand = Math.floor((Math.random() * json.length));
+            quote = json[numRand]['quote'];
+            author = json[numRand]['author'];
+            $(".my-flip").animate({opacity: 0}, 500, function(){
+                $(this).animate({opacity: 1}, 500);
+                button.classList.remove('is-loading');
+                button.removeAttribute('disabled');
+                tweetBtn.style.opacity = 1;
+            });
+            $(".title").animate({
+                opacity: 0
+                }, 500,
+                function() {
+                    $(this).animate({
+                    opacity: 1
+                 }, 500);
+                $('.title').text(author);
+            });
+            $(".quote").animate({
+                opacity: 0
+                }, 500,
+                function() {
+                    $(this).animate({
+                    opacity: 1
+                 }, 500);
+                $('.quote').text(quote);
+            });
+            $('#tweet-quote').attr('href', 'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' + encodeURIComponent('"' + quote + '" ' + author));
+        }
+        button.addEventListener('click', function() {
+            button.classList.add('is-loading');
+            button.setAttribute('disabled', true);
+        });
+        $("#getMessage").on("click", function(e) {
+            tweetBtn.style.opacity = 0;
+            $.getJSON("https://talaikis.com/api/quotes/", function(json) {
+                var randomColor = bgColors[Math.floor((Math.random() * bgColors.length))];
+                numRand = Math.floor((Math.random() * json.length));
+                quote = json[numRand]['quote'];
+                author = json[numRand]['author'];
+                bodyId.style.backgroundColor  = randomColor;
+                button.style.backgroundColor  = randomColor;
+                tweetBtn.style.backgroundColor  = randomColor;
+                $(".my-flip").animate({opacity: 0}, 500, function(){
+                    $(this).animate({opacity: 1}, 500);
+                    button.classList.remove('is-loading');
+                    button.removeAttribute("disabled");
+                    tweetBtn.style.opacity = 1;
+                });
+                $(".title").animate({
+                    opacity: 0
+                    }, 500,
+                    function() {
+                        $(this).animate({
+                        opacity: 1
+                    }, 500);
+                    $('.title').text(author);
+                });
+                $(".quote").animate({
+                    opacity: 0
+                    }, 500,
+                    function() {
+                        $(this).animate({
+                        opacity: 1
+                    }, 500);
+                    $('.quote').text(quote);
+                });
+            });
+        }); 
+    });
+
+    </script>
+
+    </script>
+    <style>
+        .my-flip{
+            background: #fff;
+            padding: 40px 60px;
+            color: #000;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 7px;
+        }
+        .hero.is-danger .title{
+            color: #000;
+        }
+        .button{
+            position: relative;
+            border: none;
+            color: #fff;
+            overflow: hidden;
+            font-weight: 500;
+            font-size:  17px;
+        }
+        .button:hover{
+            color: #fff;
+        }
+        
+        .button::before{
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            right: 0;
+            background-color: rgba(255,255,255, 0.5);
+            transition: ease-out 0.4s;
+        }
+        .button:hover::before{
+            top: -50px;
+            transition: ease-out 0.4s;
+        }
+        .author{
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .author a{
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .author a:hover{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="" id="body">
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container ">
+                <div class="my-flip">
+                    <h1 class="title">
+                        Loading...
+                    </h1>
+                    <blockquote cite="" style="padding-bottom: 20px;" class="quote">
+                    </blockquote>
+                    <button id="getMessage" class="button">New Quote</button>
+                    <a href="" class="button is-pulled-right" id="tweet-quote"><i class="fa fa-twitter"></i></a href="">
+                </div>
+                <div class="author">
+                    <a href="https://www.facebook.com/andrew.chabanov" >@rt-ewantes</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    
+</body>
+</html>
