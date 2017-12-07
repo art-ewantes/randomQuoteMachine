@@ -14,6 +14,7 @@
         const button = document.getElementById('getMessage');
         const bodyId = document.getElementById('body');
         const tweetBtn = document.getElementById('tweet-quote');
+        const leftQuote = document.getElementById('fa-quote-left');
         button.classList.add('is-loading');
         button.setAttribute('disabled', true);
         tweetBtn.style.opacity = 0;
@@ -25,6 +26,7 @@
             bodyId.style.backgroundColor  = randomColor;
             button.style.backgroundColor  = randomColor;
             tweetBtn.style.backgroundColor  = randomColor;
+            leftQuote.style.color  = randomColor;
         $.getJSON("https://talaikis.com/api/quotes/", myCallBackLoad);
         function myCallBackLoad(json){
             numRand = Math.floor((Math.random() * json.length));
@@ -43,7 +45,7 @@
                     $(this).animate({
                     opacity: 1
                  }, 500);
-                $('.title').text(author);
+                $('.title').text("--" + author);
             });
             $(".quote").animate({
                 opacity: 0
@@ -70,6 +72,7 @@
                 bodyId.style.backgroundColor  = randomColor;
                 button.style.backgroundColor  = randomColor;
                 tweetBtn.style.backgroundColor  = randomColor;
+                leftQuote.style.color  = randomColor;
                 $(".my-flip").animate({opacity: 0}, 500, function(){
                     $(this).animate({opacity: 1}, 500);
                     button.classList.remove('is-loading');
@@ -83,7 +86,7 @@
                         $(this).animate({
                         opacity: 1
                     }, 500);
-                    $('.title').text(author);
+                    $('.title').text("--" + author);
                 });
                 $(".quote").animate({
                     opacity: 0
@@ -109,6 +112,7 @@
             max-width: 800px;
             margin: 0 auto;
             border-radius: 7px;
+            position: relative;
         }
         .hero.is-danger .title{
             color: #000;
@@ -153,6 +157,15 @@
         .author a:hover{
             text-decoration: underline;
         }
+        .quote{
+            font-size: 18px;
+        }
+        .fa-quote-left{
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            font-size: 40px;
+        }
     </style>
 </head>
 <body class="" id="body">
@@ -163,7 +176,9 @@
                     <h1 class="title">
                         Loading...
                     </h1>
+                    <i class="fa fa-quote-left" id="fa-quote-left"> </i>
                     <blockquote cite="" style="padding-bottom: 20px;" class="quote">
+                        
                     </blockquote>
                     <button id="getMessage" class="button">New Quote</button>
                     <a href="" class="button is-pulled-right" id="tweet-quote"><i class="fa fa-twitter"></i></a href="">
